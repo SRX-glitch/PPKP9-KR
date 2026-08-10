@@ -17,6 +17,9 @@ _translation_backup_*/
 # 대용량 조사 덤프 (rom_text.tsv 101MB — GitHub 100MB 제한 초과, ROM에서 재생성 가능)
 survey/
 
+# GitHub Release 업로드 스테이징 (upload_build.py 산출물 — 릴리스에 이미 있음)
+release/_gh/
+
 # 파이썬 캐시
 __pycache__/
 *.pyc
