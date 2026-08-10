@@ -1,0 +1,8 @@
+{
+ "generated": "2026-07-27",
+ "untranslated_lines": 6707,
+ "untranslated_occurrences": 6715,
+ "translated_lines": 12747,
+ "coverage_runs": "16539/28169",
+ "id_scheme": "L + sha1(jp)[:10] -- stable across regenerations, so a shard cut from an older copy still merges correctly"
+}
