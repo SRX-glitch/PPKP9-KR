@@ -15,7 +15,15 @@ _backup_*/
 _translation_backup_*/
 
 # 대용량 조사 덤프 (rom_text.tsv 101MB — GitHub 100MB 제한 초과, ROM에서 재생성 가능)
-survey/
+# 단, 빌드가 읽는 워크리스트·폰트 배치·폭 표는 추적한다(재현성).
+survey/*
+!survey/common/
+!survey/font/
+survey/font/*.png
+survey/font/_*.txt
+!survey/ov28/
+survey/ov28/*
+!survey/ov28/opcode_lengths.json
 
 # GitHub Release 업로드 스테이징 (upload_build.py 산출물 — 릴리스에 이미 있음)
 release/_gh/

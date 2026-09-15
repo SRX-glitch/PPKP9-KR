@@ -133,8 +133,13 @@ def rows(fid):
         return
     for ln in open(p, encoding="utf-8").read().splitlines()[1:]:
         f = ln.split("\t")
+        # ⛔ SESSION 45: ASCII-whitespace strip ONLY. str.strip() also eats
+        # U+3000, and the choice-preview width fix pads ko with trailing
+        # full-width spaces ON PURPOSE (equal sibling widths stop the box
+        # from showing the previous line's tail). A bare .strip() silently
+        # unshipped every one of those pads.
         if len(f) >= 6 and f[5].strip():
-            yield int(f[0], 16), int(f[1]), f[4], f[5].strip()
+            yield int(f[0], 16), int(f[1]), f[4], f[5].strip(" \t\r\n")
 
 
 _orig_rom = None
@@ -321,6 +326,13 @@ def batch_map(fid):
     return _batch
 
 
+# Minimum encoded length of the ORIGINAL run for writing at every walked
+# occurrence (session 45, see comment inside `sites()`). 4 bytes ~ 1e-4 chance
+# matches per file; 2 bytes matched ~20 times in one file. Recorded worklist
+# offsets are exempt -- they were extracted, not pattern-matched.
+MIN_MULTI_BYTES = int(os.environ.get("PPKP9_MIN_MULTI_BYTES", "4"))
+
+
 def sites(fid):
     """EVERY occurrence of a translated run in file `fid` (pristine offsets).
 
@@ -351,9 +363,22 @@ def sites(fid):
             _orig_rom = open(ORIG, "rb").read()
         lo, hi = W.fat_span(_orig_rom, fid)
         seen = set()
+        # SESSION 45 -- a pattern this short matches code and data by chance, not
+        # just text: 「はい」 (2 encoded bytes, `1a 02`) walked out of file 20 at 20
+        # sites, 19 of them false -- BNE opcodes (1A->EB turned them into BLs), a
+        # u32 ID array, and the asset table after "start_obj_0.bin". That broke
+        # the バンザイ command (and matches the game-over freeze shape). Short rows
+        # keep their RECORDED worklist offset only; batch-only strings (no
+        # recorded offset) must clear the same bar everywhere.
+        rec = {}
+        for o, _b, jp, _k in rows(fid):
+            rec.setdefault(jp, set()).add(o)
         for _tag, off, blen, t in W.walk(_orig_rom, lo, hi):
             ko = tr.get(t)
             if ko is not None:
+                if (len(encode_jp(t)) < MIN_MULTI_BYTES
+                        and off not in rec.get(t, ())):
+                    continue
                 out.append((off, blen, t, ko))
                 seen.add(t)
         # A row whose text the walk no longer produces still gets its recorded

@@ -1,0 +1,9 @@
+[적용 대상 원본 ROM]
+  파일 크기 : 67,108,864 bytes
+  SHA-1     : 9d37ea0bbd71bda9db9bd641460061b0ce9e3aeb
+  CRC32     : 9825C3CF
+
+[적용 후 결과]
+  파일 크기 : 67,108,864 bytes
+  SHA-1     : 1923037a73d4d804ee57529bd4e6f582a4f48e65
+  CRC32     : D2EE93DA

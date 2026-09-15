@@ -1050,6 +1050,15 @@ def main():
     grow = (R.EXT_PAGE_BYTES + len(redirect_region)
             + REGION_ALIGN - 1) & ~(REGION_ALIGN - 1)
     grow += STRESS_GROW
+    # ---- session 45: reserve for file 25's OWN extra-region ------------------
+    # The main redirect region above serves the F8 6B dialogue corpus; file 25's
+    # `extra` rows (F8 07/F8 27/FC/FF consumers) had NO overflow path -- ov28's
+    # grow ended flush against the heap (389B slack measured on v217). This
+    # reserve keeps zero-filled space at the very end of the grow; the pass at
+    # the bottom of this file fills it via tail_region. ⚠ Changing the grow
+    # moves every success-heap cheat address (delta was +0x72000 through v217).
+    F25_RESERVE = int(os.environ.get("PPKP9_F25_RESERVE", "0x2000"), 0)
+    grow += F25_RESERVE
     print(f"redirect: {len(redirect_jp)} lines / {len(region_entries)} occurrences "
           f"({n_short} via the 3-byte banked escape), "
           f"region {len(redirect_region)}B -> overlay grows 0x{grow:X}; "
@@ -1659,6 +1668,60 @@ def main():
     #   v100 / v91 / v0.9 (files past it) -> emulator dies
     # so this is re-declared here, after the last relocation, from the FAT itself
     # rather than from whatever the last mover happened to know.
+    # ---- session 45: file 25's extra-region, in the grow's reserved tail -----
+    # Same machinery as the tail regions above, but the space is INSIDE ov28's
+    # grow (reserved next to the grow computation), because ov28's own tail ends
+    # at the heap base and cannot be extended. The long escape names an absolute
+    # RAM address, so entries living below the heap work exactly like a tail.
+    if F25_RESERVE:
+        import expand_overlay as XO
+        import tail_region as TR
+        _e25, _oid25, _oram25, _osize25 = XO.overlay_of_file(bytes(out), 25)
+        _res_ram = _oram25 + _osize25 - F25_RESERVE
+        _reg25, _wr25, _st25 = TR.build(out, 25, enc_plain, _res_ram)
+        if len(_reg25) > F25_RESERVE:
+            raise SystemExit(f"f25 region {len(_reg25)}B > reserve {F25_RESERVE:#x}"
+                             " -- raise PPKP9_F25_RESERVE (moves cheat delta!)")
+        for _off, _esc, _bud in _wr25:
+            out[_off:_off + _bud] = _esc + bytes(1) * (_bud - len(_esc))
+        _fat25 = int.from_bytes(out[0x48:0x4C], "little")
+        _lo25 = int.from_bytes(out[_fat25 + 25 * 8:_fat25 + 25 * 8 + 4], "little")
+        _fo25 = _lo25 + _osize25 - F25_RESERVE
+        out[_fo25:_fo25 + len(_reg25)] = _reg25
+        json.dump(_st25["manifest"],
+                  open(os.path.join(SURVEY, "tail_manifest_25.json"), "w",
+                       encoding="utf-8"), ensure_ascii=False)
+        print(f"f25 extra region: {len(_wr25)}/{_st25['runs']} runs redirected, "
+              f"region {len(_reg25):,}B at RAM 0x{_res_ram:08X} (inside the grow)"
+              + (f", {_st25['refused']} refused (pointer array)"
+                 if _st25.get("refused") else ""))
+
+    # ---- session 45: 2-byte runs -- one Korean syllable, OFFSET-keyed --------
+    # A run whose budget is 2 bytes cannot hold a redirect escape (3B minimum),
+    # so its only Korean form is a single syllable -- and that per-OFFSET ko can
+    # ride neither `extra_overrides` (Japanese-keyed: would retranslate every
+    # おい in the file) nor `sites()` (one ko per jp string). This pass reads
+    # survey/common/short_runs.tsv (fid, pristine offset, jp, ko) and writes in
+    # place behind the same want-gate insert_extra uses. Exact length only --
+    # no padding, no structure change, so the ROM layout is untouched.
+    _srp = os.path.join(SURVEY, "common", "short_runs.tsv")
+    if os.path.exists(_srp):
+        import insert_extra as _IXS
+        _sn = _ss = 0
+        for _ln in open(_srp, encoding="utf-8").read().splitlines()[1:]:
+            if not _ln.strip() or _ln.startswith("#"):
+                continue
+            _fs, _os_, _jp, _ko = (_ln.split("\t") + [""])[:4]
+            _want = _IXS.encode_jp(_jp)
+            _kb = enc_plain.encode(_ko)
+            _at = int(_os_, 16) + _IXS.rebase(out, int(_fs))
+            if bytes(out[_at:_at + len(_want)]) != _want or len(_kb) != len(_want):
+                _ss += 1
+                continue
+            out[_at:_at + len(_kb)] = _kb
+            _sn += 1
+        print(f"short runs: {_sn} written, {_ss} skipped")
+
     # Turn off the kanji-input dictionary whose glyphs alloc_plan just took.
     # Reclaiming those 966 kanji is what makes the syllable budget fit, but it
     # would leave the サクセス name-entry keyboard offering Hangul where a kanji

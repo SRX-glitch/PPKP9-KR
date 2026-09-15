@@ -1,0 +1,18 @@
+fid	offset	jp	ko
+4	0x5810F0	おい	야
+27	0x5EF562	あの	저
+27	0x5F6964	なあ	야
+4	0x5BB581	はい	네
+4	0x5CBCD2	はい	네
+4	0x5E46DA	さん	씨
+4	0x5E4BF5	さん	씨
+27	0x5F8928	だん	단
+27	0x603CC9	はい	네
+# 2-byte runs (budget 2): one Korean syllable fits exactly. Session 45.
+# offset은 원본 ROM 절대(pristine) — 빌드가 rebase()로 라이브 위치를 찾는다.
+# ⛔ jp가 같아도 행마다 ko가 다를 수 있는 게 이 파일의 존재 이유다(extra_overrides는
+#    일본어가 키, sites()는 jp당 ko 하나) — 반드시 오프셋 단위로만 늘릴 것.
+# 보류(1음절 대응 없음): でも×7·って×2·あれ — 오역보다 원문 유지.
+# 보류(조사, absorb 경로로 갈 것): じゃ 0x57BF13 · との 0x5AC997 · まで 0x5B2A81
+#    — F8 08 <이름> F8 09 <조사> FA 구조, 이름 런을 리다이렉트해 이름+조사를 통째로
+#    싣고 조사 런을 0x00으로 지우는 josa_absorb 계열(세션43 f4+70·f27+9와 동형).

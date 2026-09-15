@@ -1,0 +1,47 @@
+file	row	jp	ko	kind	note
+27	762	はい、終了でやんす㎞	네、종료입죠㎞	gaiji	원문 말미의 ㎞는 외자(gaiji) 디코드 잔재. 임의 삭제 시 바이트 구조가 어긋나므로 보존. 삽입 단계에서 실제 charcode 확인 필요
+4	793	・・・勲章もらえるかなぁ㎞	・・・훈장 받을 수 있으려나㎞	gaiji	위와 동일
+4	877	ほれほれ㎞	자자㎞	gaiji	위와 동일
+4	902	はーい㎞	네에㎞	gaiji	위와 동일
+4	2069	な～るほど㎞	과～연㎞	gaiji	위와 동일
+27	1526	まあ、そうですけ	뭐、그렇습니다	truncated	원문이 문장 중간에서 끊김(다음 상자로 이어짐). 끊긴 상태 유지
+27	1533	それは、そうですけ	그건、그렇습니다	truncated	위와 동일
+27	1537	なんか、納得いかないよう	뭔가、납득이 안 가는 것 같	truncated	위와 동일
+27	1538	いや、でも、なんかコツとかあるんじ	아니、그래도、뭔가 요령 같은 게 있는 거	truncated	위와 동일
+27	714	ボタンだの	단추라느니	ambiguous	⚠ 미확정. 옷 단추 / 게임 패드 버튼 둘 다 성립. 앞뒤 문맥으로 판별 불가. 실제 화면 확인 필요
+27	720	ボタン？	단추？	ambiguous	위와 동일
+4	1096	・・・大領領閣下。	・・・대통령 각하。	source-typo	원문이 「大領領」 — 「大統領」의 오타로 판단해 정정 번역
+4	1101	大統領親子でやんす！	대통령 부자입죠！	corrected	최초 '부녀'로 옮겼다가 1902행 「わが息子」로 부자 확정. 정정 완료
+27	27,363,364	イエッサー	충성	term	폰트 제약(썰)으로 '옛썰' 불가. 군대식 대답으로 대체
+4	24,158	キャプテン	선장	term	폰트 제약(캡). 우주선 배경이라 자연스러움. 전편 통일
+4	469,1192,1216,1940,2434,3059	～トン	～Ｔ	unit	폰트 제약(톤). 전각 ｔ·ｇ는 charcode 자체가 없음. Ｔ(190)·㎏(228)은 존재
+4	1939,1942,2971,2977,2980,2985	～カニ	～게	tic	게 캐릭터 말버릇. 「~하게」로 문장 끝을 맞춤
+27,4	다수	～でやんす / オイラ	～입죠 / 나	tic	두 파일에 공통 등장하는 캐릭터. 전편 통일
+27	다수	～じゃのう / 拙僧 / ワシ	～구먼 / 소승 / 나	tic	노승 말투. 반말체 낮춤 유지
+27	1309	喝ーーーーッ	할～～～～	term	선불교 용어 '할(喝)' 음차
+4	2473	正義キック	정의의 발차기	term	폰트 제약(킥). 같은 계열 기술명 슬래셔·빔은 외래어 유지 → ⚠ 통일성 깨짐
+4	1046,1050	「お約束」	「뻔한 전개」	term	폰트 제약(셰)으로 '클리셰' 불가. 구어적이라 손실은 적음
+4	2262	呉越同舟	오월동주	term	한국어에도 통하는 고사성어라 직역 유지
+4	1492,1493	好奇心はネコを殺す / ネズミを捕るのは良いネコ	호기심은 고양이를 죽인다 / 쥐를 잡는 건 좋은 고양이	term	속담 응수. 직역이 대구를 살림
+20	전체	日本シリーズ / 日本一 / 優勝	일본시리즈 / 일본 제일 / 우승	term	기존 파일25 번역과 대조해 통일
+8	5	いヂらはいＱじはい犒はい。ぼはいＡむはいぃどはい	(미번역)	not-text	「いＸはい」반복 패턴 = 텍스트가 아니라 데이터. 번역 대상 아님으로 판정
+1897	전체	(파일 27과 동일 문자열 1,539개)	(27 번역으로 커버)	duplicate	고유 1,542개 중 1,539개가 파일27과 일치. 나머지 3개는 바이너리 오탐. 컨테이너만 다른 복제본
+-	ARM9	(원본 오버레이28 잔존 바이트 3,515런)	(대상 아님)	dead-data	빌드가 FAT[25]를 재배치한 뒤 원본 자리(0x4CC000~0x55EE40)에 남은 바이트. 실행에 사용되지 않음
+-	2029,1867,13,1993 외	(무의미한 가나·기호 나열)	(대상 아님)	false-positive	바이너리가 우연히 F8 6B 런으로 디코드된 것. 코히런트한 일본어 없음
+-	015격리	ははカーブ / ひひフォーク / ふふシンカー / へへシュート	커브 / 포크 / 싱커 / 슈트	misaligned	선두 2글자는 텍스트가 아니라 F8 코드의 피연산자. 진짜 문자열은 カーブ/フォーク/シンカー/シュート. 재추출 시 오프셋을 F8+2 뒤로 옮길 것
+-	015격리	うーーーーーーん？ / ふふふふふふふふふっ・・・・ / いや、そんなつもりじゃ・・・	(보류)	misaligned	선행 바이트가 FB(=3바이트, 세션29 확정). 폭을 2·3·4 어느 것으로 잡아도 온전한 문장이 안 나옴 → 런 경계 자체가 어긋남. 재추출 필요
+-	015격리	いつまででも、この町に / いいなぁ～って・・・	(보류)	misaligned	선행 바이트가 FA. 위와 동일
+-	015격리	いい？	괜찮아？	partial-misaligned	원본에 8곳 출현 중 1곳만 FB 직후. 그 자리만 제외하고 나머지는 삽입 가능
+ov28	선택지	鎖 / 妹	(원문 유지)	no-budget	예산 2바이트라 4바이트 인라인은 물론 3바이트 리다이렉트 이스케이프도 못 들어감. 구조 변경 없이는 불가
+ov28		あ	아	impossible	budget 1B; floor 2B even with unlimited MTE (session30 measured)
+ov28		ね。	말이지。	impossible	budget 2B; floor 3B even with unlimited MTE (session30 measured)
+ov28		次へ	다음으로	impossible	budget 3B; floor 4B even with unlimited MTE (session30 measured)
+ov28		でもね	그래도 말이야	impossible	budget 3B; floor 5B even with unlimited MTE (session30 measured)
+ov28		帰る	돌아간다	impossible	budget 3B; floor 4B even with unlimited MTE (session30 measured)
+ov28		じゃあな。	그럼 잘 있어。	impossible	budget 5B; floor 6B even with unlimited MTE (session30 measured)
+ov28		に連れて行けば、	이런 놈도 조금은 전력이 될까。）	mismatch	jp and ko do not correspond -- the pairing is wrong somewhere in the batches, not a budget issue (session30)
+file30	346	ちらし (ASCII 경로가 앞에 섞임)		misextracted	run starts inside a pointer/asset-path record; writing at this offset would corrupt it, same class as the album-title corruption (session30)
+file30	347	サウンドモードに入ります (ASCII 경로가 앞에 섞임)		misextracted	real user-facing string but the row's offset points into an asset path; needs re-extraction before it can be translated (session30)
+file30	1	作成中 (포인터 노이즈가 앞에 섞임)		misextracted	same -- re-extract before translating (session30)
+ov28		ん。		impossible	2B budget before 「쿨하다고 할까…」; 흠 fits but drops the 。 and no redirect below 3B -- readable Japanese beats a cramped syllable (session30, check_seams)
+ov28		と？		impossible	2B budget before 「지나가던 사람이다。」; a bare 고 reads worse than the original (session30, check_seams)

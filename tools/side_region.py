@@ -170,7 +170,12 @@ def _extra_rows(rom, fid, enc, lo, taken):
         if len(f) < 6 or not f[5].strip():
             continue
         poff = int(f[0], 16)
-        off, budget, jp, ko = poff + delta, int(f[1]), f[4], f[5].strip()
+        # ⛔ SESSION 45: ASCII strip only -- a bare .strip() also eats U+3000,
+        # and the choice-width pads are trailing full-width spaces ON PURPOSE.
+        # Stripping them made the row "fit inline" here while insert_extra
+        # (unstripped) skipped it as too long: NOBODY wrote, Japanese stayed.
+        off, budget, jp, ko = (poff + delta, int(f[1]), f[4],
+                               f[5].strip(" \t\r\n"))
         if off in taken or budget < MIN_BUDGET:
             continue
         # Same control-flow guard `insert_extra.apply_all` applies to its
