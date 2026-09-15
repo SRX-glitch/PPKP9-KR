@@ -21,7 +21,9 @@ WSL 경로도 마찬가지(`/mnt/c/.../파워프로군 포켓9/ppkp9-kr/builds/.
 
 ---
 
-# ▶▶▶▶▶ 세션47 (2026-09-15) = 정리·v0.1 배포
+# ▶▶▶▶▶ 세션48 (2026-09-15) = 정리·v0.1 배포
+
+(세션47 = 이미지 자산 전수 렌더·분류 — 저장소 밖 `../tools/render_assets_v2.py`·`../analysis/assets/`, **보류**. KNOWN_ISSUES C1 참조.)
 
 **v0.1 = `PPKP9_kr_v231_padfix3.nds`** (SHA-1 `1923037a73d4…`, CRC32 `D2EE93DA`).
   `release/PPKP9-KR-0.1/`(xdelta 1,053,178B, 역적용 검증 통과) → GitHub Release `v0.1`.
