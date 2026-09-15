@@ -62,8 +62,9 @@ v0.1 = 빌드 `PPKP9_kr_v231_padfix3.nds` (SHA-1 `1923037a…`, japanese left **
 
 ### C1. 그래픽(이미지) — **보류(사용자 결정, v0.1 미포함)**
 - 「能力」 타이틀·게임오버 굵은 글씨(「ゲームオーバー」「野球仙人の知恵袋」)·캐릭터 생성 화면 등은 텍스트가 아니라 이미지.
-- **착수 상태(저장소 밖, `rom/DS/파워프로군 포켓9/tools/`·`analysis/assets/`)**: `render_assets_v2.py`(4bpp 다중뱅크·타일맵 레이어·OBJ 투명화)로 자산 1,980/1,986 렌더, `asset_classify.py`+`asset_worklist.py`가 분류표·`image_worklist.md`를 냄. 번역 대상 380 · 미확정 114(대부분 OBJ, OAM 조립 필요). 사쿠세스 메인 화면 = 상태바(fp9_guy_main_g_60_v)+배경(sc1bg21)+아이콘(fp9_guy_main_g_obj_30).
-- 재삽입(그리기→타일·팔레트 재인코딩→ROM 되쓰기) 파이프라인은 아직 없다. **v0.1에는 넣지 않는다(사용자 결정).**
+- **착수 상태(저장소 밖, `rom/DS/파워프로군 포켓9/tools/`·`analysis/assets/`)**: `render_assets_v2.py`(4bpp 다중뱅크·타일맵 레이어·OBJ 투명화)로 자산 1,980/1,986 렌더, `asset_classify.py`+`asset_worklist.py`가 분류표·`image_worklist.md`를 냄. 번역 대상 378(TEXT_UI 256·TEXT_ART 115·TEXT_OBJ 7) · 미확정 112(대부분 OBJ, OAM 조립 필요). 사쿠세스 메인 화면 = 상태바(fp9_guy_main_g_60_v)+배경(sc1bg21)+아이콘(fp9_guy_main_g_obj_30).
+- 재삽입 도구도 같은 곳에 있다: `export_redraw.py`(PNG 추출) → `import_redraw.py`(타일 재분해·타일맵 재기록, 같은 .bin의 레이어 전부 동시 처리) → `inject_assets.py`(LZ77 재압축본을 FAT 기준으로 되쓰기, 넘치면 ROM 꼬리로 이동 + 헤더 0x80·CRC-16 갱신). 실제 그려 넣은 자산·검증 여부는 `analysis/assets/worklist_success.md` 확인.
+- **v0.1에는 넣지 않는다(사용자 결정, 보류).** 한글 빌드에 얹을 때는 `build_kr.py` 이후 단계로 붙여야 하고, 파일이 옮겨진 뒤라 MANIFEST 오프셋을 믿으면 안 된다.
 
 ### C2. 한자 IME(이름 입력 「漢字」「変換」 탭) — 포기 결정
 - 한자 2,768자 슬롯을 한글로 회수(`disable_ime.py`가 후보 목록을 비움). 「漢字」 탭은 JIS 순서 charcode 그리드라 재배정 슬롯이 한글로 보이는 표시 결함이 남는다(선택적 화면). 命名 자동생성은 정상.
