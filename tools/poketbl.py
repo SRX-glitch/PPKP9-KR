@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
 """Shared PokeTEXT character tables + charcode mapping."""
-import re, os
+import re, os, json
 
-CS = r"C:/Users/jngji/Desktop/실험실/rom/DS/파워프로군 포켓9/ppkp9-kr/poketext_src/PokeTEXT.decompiled.cs"
+_HERE = os.path.dirname(os.path.abspath(__file__))
+# Character tables live in the repo as JSON (survey/common/poketext_tables.json).
+# The decompiled PokeTEXT source they were derived from is third-party code and is
+# NOT tracked; it is only consulted to regenerate the JSON when present.
+TBL_JSON = os.path.join(_HERE, "..", "survey", "common", "poketext_tables.json")
+CS = os.path.join(_HERE, "..", "poketext_src", "PokeTEXT.decompiled.cs")
 
 
 def _load():
+    if os.path.exists(TBL_JSON) and not os.environ.get("PPKP9_TABLES_FROM_CS"):
+        d = json.load(open(TBL_JSON, encoding="utf-8"))
+        return {int(k): v for k, v in d.items()}
     lines = open(CS, encoding="utf-8").read().splitlines()
     in_poke3 = False
     tables = {}
