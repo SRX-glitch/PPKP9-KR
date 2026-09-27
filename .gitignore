@@ -36,3 +36,6 @@ __pycache__/
 *.tmp
 *.bak
 ~$*
+
+# 타사 도구 디컴파일 소스 (PokeTEXT, © インデゴ) — 공개 저장소에 올리지 않음, 로컬 참고용
+poketext_src/
