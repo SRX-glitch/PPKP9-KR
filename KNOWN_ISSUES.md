@@ -78,7 +78,7 @@ v0.1 = 빌드 `PPKP9_kr_v231_padfix3.nds` (SHA-1 `1923037a…`, japanese left **
 ## D. 도구·운영 부채
 
 - **치트 파일 불일치**: `cheats/PPKP9_KR_cheats_v213.txt`는 grow `0x72000`(v211~v213) 전용. v0.1은 grow `0x75000`이라 석세스 힙 블록 델타가 +0x3000 더 밀렸다 → 재생성 필요(RESUME 세션44 절차, 가드 `5233CB60 0233E440`도 재실측).
-- 구 `testing/` v213 xdelta와 GitHub `build-v202` 릴리스는 v0.1이 대체해 제거함(2026-09-27). `latest` 릴리스의 ROM은 아직 v202.
+- 구 `testing/` v213 xdelta와 GitHub `build-v202` 릴리스는 v0.1이 대체해 제거함(2026-09-27). ROM 본체를 올리던 `latest` 릴리스도 삭제(패치만 배포, 사용자 결정).
 - 폭 표(`survey/ov28/opcode_lengths.json`) 추가 수정 금지: F8 6A 외 36개 후보는 과잉 검출로 판명. F8 56 「폭 8」은 레코드 stride 우연 일치.
 - 워크리스트 우선순위 규칙: 같은 jp가 batch와 오프셋 워크리스트 양쪽에 있으면 **오프셋 행이 이긴다** — batch만 고치고 끝내지 말고 바이너리로 검증.
 - 신규게임과 세이브 이어하기는 **다른 증거**다(v191 교훈). 글꼴 확인은 콜드 부트로.

@@ -115,36 +115,7 @@ def main():
         sys.exit("gh 실패:\n" + (r.stderr or r.stdout)[-1500:])
     print(f"업로드 완료: https://github.com/{REPO}/releases/tag/{tag}")
 
-    # ---- 'latest' 릴리스: ROM 본체를 고정 이름으로 교체 업로드 ----
-    # 사용자 결정(2026-08-10): 프라이빗 저장소, 외부 실기 테스트용으로 ROM
-    # 자체를 올린다. 항상 같은 파일명이라 다운로드 URL이 고정된다.
-    latest_rom = os.path.join(out, "PPKP9_kr_latest.nds")
-    shutil.copyfile(build, latest_rom)
-    lnotes = (f"현재 빌드: {os.path.basename(build)}\n"
-              f"SHA-1 {t_sha}  CRC32 {t_crc}\n\n{a.notes}".rstrip())
-    if subprocess.run([gh, "release", "view", "latest", "-R", REPO],
-                      capture_output=True).returncode != 0:
-        r = subprocess.run([gh, "release", "create", "latest",
-                            "-t", f"최신 빌드 ({stem})", "-n", lnotes,
-                            "-R", REPO],
-                           capture_output=True, text=True,
-                           encoding="utf-8", errors="replace")
-        if r.returncode:
-            sys.exit("latest 릴리스 생성 실패:\n" + (r.stderr or r.stdout)[-1500:])
-    else:
-        subprocess.run([gh, "release", "edit", "latest",
-                        "-t", f"최신 빌드 ({stem})", "-n", lnotes, "-R", REPO],
-                       capture_output=True)
-    print(f"ROM 업로드 중… ({os.path.getsize(latest_rom):,}B)")
-    r = subprocess.run([gh, "release", "upload", "latest", latest_rom,
-                        "--clobber", "-R", REPO],
-                       capture_output=True, text=True,
-                       encoding="utf-8", errors="replace")
-    os.remove(latest_rom)
-    if r.returncode:
-        sys.exit("ROM 업로드 실패:\n" + (r.stderr or r.stdout)[-1500:])
-    print(f"교체 완료: https://github.com/{REPO}/releases/download/latest/"
-          f"PPKP9_kr_latest.nds  ({stem})")
+    # ROM 본체는 올리지 않는다 — 사용자 결정(2026-09-27): 패치(xdelta)만 배포.
 
 
 if __name__ == "__main__":
