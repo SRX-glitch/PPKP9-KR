@@ -18,8 +18,9 @@
 | `tools/` | 추출·번역 삽입·폰트 팩·훅·검증 게이트·릴리스 도구 (`build_kr.py`가 진입점) |
 | `translation/` | 번역 배치 TSV(`batchNNN.tsv`)와 오버라이드 |
 | `survey/common/`, `survey/font/`, `survey/ov28/opcode_lengths.json` | 빌드가 읽는 워크리스트·폰트 배치·오프코드 폭 표 (나머지 `survey/`는 ROM에서 재생성 가능한 대용량 덤프라 미추적) |
-| `release/` | 배포판 패치 (`PPKP9-KR-0.1/`, 구 `0.9.x`는 폐기) |
-| `cheats/` | 에뮬레이터용 Action Replay 치트 (⚠ v213 전용, v0.1과 델타 불일치 — KNOWN_ISSUES D) |
+| `release/` | 배포판 패치 `PPKP9-KR-0.1/` (폐기된 0.9.x는 `_archive/`) |
+| `cheats/` | 에뮬레이터용 Action Replay 치트 (⚠ v213 기준, v0.1과 주소 불일치 — KNOWN_ISSUES D) |
+| `handoff/` | 외부 번역 인수인계 패키지(샤드·정책·QA 기록, 2026-07~08) |
 | `KNOWN_ISSUES.md` | 미해결 문제 정리 (v0.1 기준) |
 | `RESUME.md` | 세션별 작업 일지·다음 세션 인계 (가장 위가 최신) |
 | `GAME_REFERENCE.md`, `SURVEY.md`, `RE_PLAN.md` | 게임 구조·조사 기록·역분석 계획 |

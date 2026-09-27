@@ -1,7 +1,9 @@
-# 외부 테스트용 — v213 패치 + 치트
+# 에뮬레이터 치트 (Action Replay) — ⚠ v213 빌드 기준
 
-빌드 롬(.nds)은 저작권 문제로 저장소에 올리지 않는다. 대신 이 폴더의 xdelta를
-갖고 있는 원본 롬에 적용하면 **바이트 단위로 동일한** v213이 나온다(검증 완료).
+> 이 문서는 세션44(v213 외부 테스트용)에 쓴 것이다. 패치 배포는 이제 GitHub Releases `v0.1`
+> (`release/PPKP9-KR-0.1/`)로 하며, 아래 v213 xdelta 절차는 **더 이상 유효하지 않다**.
+> 치트 파일도 v213의 힙 델타(+0x72000) 기준이라 **v0.1(grow 0x75000)에서는 주소가 어긋난다**
+> — 재생성 전까지 참고용으로만 둔다(KNOWN_ISSUES.md D 항목).
 
 ## 준비물
 
@@ -20,7 +22,7 @@ xdelta3 -d -s "Power Pro Kun Pocket 9 (Japan).nds" PPKP9_kr_v213_ops.xdelta PPKP
 
 ## 치트 (DeSmuME)
 
-`../cheats/PPKP9_KR_cheats_v213.txt` 를 연다 →
+`PPKP9_KR_cheats_v213.txt` 를 연다 →
 DeSmuME 메뉴 **Emulation → Cheats → List → Add → Action Replay 탭**에
 원하는 코드 블록을 통째로 붙여넣고 이름을 달아 저장한다.
 
